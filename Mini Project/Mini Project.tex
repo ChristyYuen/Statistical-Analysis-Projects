@@ -1,0 +1,171 @@
+\documentclass[12pt]{article}
+
+\usepackage{blkarray}
+\usepackage{amsmath}
+ 
+\addtolength{\textheight}{2.7in}
+\addtolength{\topmargin}{-1.15in}
+\addtolength{\textwidth}{1.0in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\oddsidemargin}{-0.65in}
+\setlength{\parskip}{0.1in}
+\setlength{\parindent}{0.0in}
+
+\newcommand{\given}{\, | \,}
+
+\pagestyle{empty}
+
+\raggedbottom
+ 
+\begin{document}
+
+\vspace*{-0.3in}
+
+\begin{flushleft}
+
+Prof.~David Draper \\
+Department of Statistics \\
+University of California, Santa Cruz
+
+\end{flushleft}
+
+\begin{center}
+
+\textbf{\large STAT 131: Quiz 10 (extra credit only)} \fbox{\textit{[45 total points]}}
+
+\end{center}
+
+\bigskip
+
+\begin{flushleft}
+
+Name: Christy Yuen \\
+Note: Attended Professor Draper's Office Hours and got lots of help.
+
+\end{flushleft}
+
+Three friends --- let's call them $X$, $Y$, and $Z$ --- like to play pool (pocket billiards). There are some pool games that involve three players, but these people instead like to play \textit{9-ball}, which is a game between two players with the property that a tie cannot occur (there's always a winner and a loser in any given round). Since it's not possible for all three of these friends to play at the same time, they use a simple rule to decide who plays in the next round: \textit{loser sits down}. For example, suppose that, in round 1, $X$ and $Y$ play; then if $X$ wins, $Y$ sits down and the next game is between $X$ and $Z$. Question: in the long run, which two players square off against each other most often? Least often?
+
+So far what I've described is completely realistic, but now we need to make a (strong) simplifying assumption. In practice people get tired and/or discouraged, so the probability that (say) $X$ beats $Y$ in any single round is probably not constant in time, but let's pretend it is, to get a kind of baseline analysis: let $0 < p_{ X Y } < 1$ be the probability that $X$ beats $Y$ in any given game, and define $0 < p_{ X Z } < 1$ and $0 < p_{ Y Z } < 1$ correspondingly. Consider the stochastic process $\mathcal{ P }$ that keeps track of which two people are playing in round $n = 1, 2, \dots$
+
+\begin{itemize}
+
+\item[(a)]
+
+If we take the state space of this process to be $S = \{ ( X Y ), ( X Z ), ( Y Z ) \}$, in which (for example) $( X Z )$ means that $X$ and $Z$ are playing each other in a particular round, briefly explain why $\mathcal{ P }$ is a time-homogeneous Markov chain. \fbox{\textit{[5 points]}}\\
+
+SOLUTION: \\
+$XY \rightarrow XZ \rightarrow XY \rightarrow XY$ \, \\
+The Markov chain is not true, as the round doesn't determine the outcome of the next round. To know what happens next, we only need to know the position. It's homogeneous because the probabilities don't change between the rounds and the people's skill reminds constant. \\
+
+\item[(b)]
+
+Briefly explain why the one-step transition matrix $P$ for this Markov chain is
+\begin{equation} \label{e:transition-matrix-1}
+P = \left[ \begin{array}{ccc} 
+0 & p_{ X Y } & ( 1 - p_{ X Y } ) \\
+p_{ X Z } & 0 & ( 1 - p_{ X Z } ) \\
+p_{ Y Z } & ( 1 - p_{ Y Z } ) & 0
+\end{array} 
+\right]
+\end{equation}
+when the rows of this matrix describe transitioning \underline{\textit{from}} one of states $\{ ( X Y ), ( X Z ),$ $( Y Z ) \}$ (in that order) at time $n$ and the columns describe transitioning \underline{\textit{to}} one of the states (in the same order) at time $( n + 1 )$; in other words, briefly explain why each of the entries in $P$ is as specified in equation (\ref{e:transition-matrix-1}). \fbox{\textit{[10 points]}}
+
+SOLUTION: \\
+
+"to" is the columns \\
+"from" is the rows \\
+Since all the rows have to sum up to 1, equation 1 is correct. 
+
+\item[(c)]
+
+Suppose that $X$ is the best player, followed not far behind by $Y$, and $Z$ usually doesn't win; for example, take $( p_{ XY }, p_{ XZ }, p_{ YZ } ) = ( 0.6, 0.975, 0.95 )$. Do an eigen-analysis to show that the equilibrium distribution of the resulting Markov chain is $v = ( 0.491, 0.305, 0.204 )$. Verify that this is indeed the equilibrium distribution by showing that $v \, P = v$. \fbox{\textit{[10 points]}}
+
+SOLUTION:
+
+\begin{equation} 
+_3P_3 = \left[ \begin{array}{ccc} 
+0 & 0.6 & 0.4 \\
+0.975 & 0 & 0.025 \\
+0.95 & 0.025 & 0
+\end{array} 
+\right]
+\end{equation} \\
+equilibrium distribution: \\
+\indent \indent $_1V_k P_k \stackrel{P}{=} \, _1V_k$ \\
+To get the left eigen-analysis, we have to make the right eigen-analysis $P^T$\\
+\begin{equation} 
+_3P_3^T = \left[ \begin{array}{ccc} 
+0 & 0.975 & 0.95 \\
+0.6 & 0 & 0.05 \\
+0.4 & 0.025 & 0
+\end{array} 
+\right]
+\end{equation} \\
+$_1V_k = (2.40603), (1.4393), (1)$\\
+$c > 0$\\
+$_1V_k P_k \stackrel{P}{=}_k \, _1V_k \rightarrow (c,v)_k  \stackrel{P}{=}_k = (c, \,  _1V_k)$\\
+$c = \sum_{i=1}^{k} V_i = 4.90061$\\
+Normalized equilibrium distribution: $( 0.491, 0.305, 0.204 )$ \\
+
+
+\item[(d)]
+
+Briefly interpret the equilibrium distribution in part (c) (e.g., the pair of players that's most often at the table playing each other is~..., followed by~..., and the least frequent pair is~...). Does this distribution make good intuitive sense, given the vector $( p_{ XY }, p_{ XZ }, p_{ YZ } )$ in part (c)? Explain briefly. \fbox{\textit{[10 points]}}
+
+SOLUTION: \\
+
+Normalized equilibrium distribution:
+\\ $( 0.491, 0.305, 0.204 )$ \\
+\, \,  XY \,\, \,  XZ \, \,\,  XY \, \, \\
+most \, \, second \, \, least\\
+often \, \, \, \, \, \, \, \, \, \, often
+
+\begin{table}[h!]
+
+\small
+
+\centering
+\begin{tabular}{c|c}
+
+Player & Equibrium of the time at table \\
+
+\hline
+
+X & $0.491+0.305 = 0.796/2 = 0.4$  \\
+
+Y & $0.14+0.204=0.645/2=0.35$  \\
+
+Z & $0.305+0.204=0.504/2=0.25$
+
+\end{tabular}
+
+
+\normalsize
+
+\end{table} 
+$0.4 + 0.35+0.25=1$
+
+\item[(e)]
+
+Suppose (instead of the situation in part (c)) that the players are all equally good. What do you expect intuitively that the equilibrium distribution will be? Explain briefly, and do the eigen-analysis to verify your conjecture. \fbox{\textit{[10 points]}}\\
+
+SOLUTION:\\
+
+equally good: \\
+\[
+_3P_3 =
+\begin{blockarray}{cccc}
+XY & XZ & YZ \\
+\begin{block}{(ccc)c}
+  0 & 0.5 & 0.5 & XY  \\
+  0.5 & 0 & 0.5 & XZ \\
+  0.5 & 0.5 & 0 & YZ  \\
+\end{block}
+\end{blockarray}
+ \]
+Doing a right eigen-analysis, we get $\frac{1}{3}$ for each element. 
+
+\end{itemize}
+
+\end{document}
